@@ -14,6 +14,8 @@ class Pessoa(Base):
     create_at = Column(DateTime, nullable=False)
     update_at = Column(DateTime, nullable=True)
 
+    carrinhos = relationship("Carrinho", back_populates="pessoa")
+
 
 class Produto(Base):
     __tablename__ = 'produtos'
@@ -23,6 +25,8 @@ class Produto(Base):
     descricao = Column(String, nullable=False)
     create_at = Column(DateTime, nullable=False)
     update_at = Column(DateTime, nullable=True)
+
+    carrinhos = relationship("Carrinho", back_populates="produto")
 
 
 class Carrinho(Base):
@@ -35,10 +39,5 @@ class Carrinho(Base):
     create_at = Column(DateTime, nullable=False)
     update_at = Column(DateTime, nullable=True)
 
-        # Define the relationships with Pessoa and Produto classes
     pessoa = relationship("Pessoa", back_populates="carrinhos")
     produto = relationship("Produto", back_populates="carrinhos")
-
-# Add the reverse relationships to the Pessoa and Produto classes
-Pessoa.carrinhos = relationship("Carrinho", back_populates="pessoa")
-Produto.carrinhos = relationship("Carrinho", back_populates="produto")

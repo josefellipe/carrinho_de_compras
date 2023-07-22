@@ -22,3 +22,4 @@ def verificar_banco_de_dados():
     else:
         criar_db()
         return {'message': 'Banco de dados criado com sucesso.'}
+    

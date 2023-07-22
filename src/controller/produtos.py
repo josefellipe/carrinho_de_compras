@@ -3,17 +3,17 @@ from fastapi import APIRouter
 produtos = APIRouter()
 
 @produtos.get("/produtos/consultar/{id}")
-def consultar(id):
+async def consultar(id):
     return {"message": "Essas produtos estão cadastradas"}
 
 @produtos.post("/produtos/adicionar")
-def adicionar():
+async def adicionar():
     return {"message": "Mais uma produto cadastrado"}
 
 @produtos.patch("/produtos/modificar")
-def modificar():
+async def modificar():
     return {"message": "Mudou as informações desse produto"}
 
 @produtos.delete("/produtos/remover")
-def remover():
+async def remover():
     return {"message": "Esse produto foi removido"}
