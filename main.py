@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import uvicorn
 from src.routes.meu_carrinho import meu_carrinho
 from src.routes.pessoas import pessoas
 from src.routes.produtos import produtos
@@ -10,4 +11,8 @@ app.include_router(pessoas)
 app.include_router(produtos)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+    uvicorn.run(
+        app,
+        host="0.0.0.0", 
+        port=8000
+    )
