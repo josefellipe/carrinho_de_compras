@@ -1,5 +1,9 @@
 from fastapi import APIRouter, Request
+
 from src.models.client import ClientRegister
+from src.models.config import Config
+
+
 
 client = APIRouter()
 
@@ -10,7 +14,14 @@ async def consult(id):
 @client.post("/client/create")
 async def create_client(informations: ClientRegister, request: Request):
     credential = request.headers.get("credential")
+    if credential != Config.credential:
+        return {
+            "success": False,
+            "message": "Você não pode ter acesso a essa API"
+        }
     
+
+
     if informations.name == 'A':
         response = {
             "success": True,
@@ -22,8 +33,6 @@ async def create_client(informations: ClientRegister, request: Request):
             "message": "Não foi possível criar a conta."
         }
 
-
-    print(informations, credential)
     return response
 
 @client.patch("/client/modify")

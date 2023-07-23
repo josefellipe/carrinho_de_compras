@@ -9,4 +9,4 @@ class Config:
     host = os.getenv("HOST")
     port=os.getenv("PORT")
     credential=os.getenv("CREDENTIAL")
-
+    db_string=os.getenv("DB_STRING")

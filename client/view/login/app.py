@@ -35,11 +35,12 @@ async def render_login(request: Request):
 async def cadastro_submit(request: Request, name: str = Form(...), email: str = Form(...), password: str = Form(...), confirmPassword: str = Form(...)):
     if password != confirmPassword:
         context = {
+            "success": False,
             "request": request,
-            "error": "Senhas diferentes",
+            "message": "Senhas diferentes",
             "host": host_port
         }
-        return templates.TemplateResponse("cadastro_sucesso.html", context=context)
+        return templates.TemplateResponse("cadastre_se.html", context=context)
     
     url = f"{Config.server_host}/client/create"
     json = {
@@ -70,10 +71,10 @@ async def cadastro_submit(request: Request, name: str = Form(...), email: str = 
         "host": host_port
     }
 
-    print(context)
-    print(response)
-
-    return templates.TemplateResponse("cadastre_se.html", context=context)
+    if context["success"]:
+        return templates.TemplateResponse("cadastro_success.html", context=context)
+    else:
+        return templates.TemplateResponse("cadastre_se.html", context=context)
 
     
     

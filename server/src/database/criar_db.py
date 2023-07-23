@@ -1,15 +1,18 @@
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from src.database.tables import Base
 from sqlalchemy.exc import OperationalError
+
+from src.models.config import Config
 import os
 
-def criar_db():
-    engine = create_engine('sqlite:///pessoa_produto.db', echo=True)
+def create_db():
+    engine = create_engine(Config.db_string, echo=True)
     Base.metadata.create_all(engine)
 
 
-def verificar_banco_de_dados():
-    db_file_path = "pessoa_produto.db"
+def verify_db():
+    db_file_path = "store.db"
 
     if os.path.exists(db_file_path):
         engine = create_engine(f"sqlite:///{db_file_path}")
@@ -17,9 +20,17 @@ def verificar_banco_de_dados():
             with engine.connect():
                 return {'message': 'Banco de dados já existe!'}
         except OperationalError:
-            criar_db()
+            create_db()
             return {'message': 'Banco de dados criado com sucesso.'}
     else:
-        criar_db()
+        create_db()
         return {'message': 'Banco de dados criado com sucesso.'}
     
+
+def create_session():
+    try:
+        engine = create_engine(Config.db_string, echo=True)
+        Session = sessionmaker(bind=engine)
+        return Session()
+    except Exception as e:
+        return None

@@ -4,40 +4,41 @@ from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
-class Pessoa(Base):
-    __tablename__ = 'pessoas'
+class Client(Base):
+    __tablename__ = 'clients'
     id = Column(Integer, primary_key=True)
-    nome = Column(String, nullable=False)
+    name = Column(String, nullable=False)
     email = Column(String, nullable=False)
-    senha = Column(String, nullable=False)
-    carrinho = Column(Text, nullable=True)
+    password = Column(String, nullable=False)
+    cart = Column(Text, nullable=True)
     create_at = Column(DateTime, nullable=False)
     update_at = Column(DateTime, nullable=True)
 
-    carrinhos = relationship("Carrinho", back_populates="pessoa")
+    carts = relationship("Cart", back_populates="client")
 
 
-class Produto(Base):
-    __tablename__ = 'produtos'
+class Product(Base):
+    __tablename__ = 'products'
     id = Column(Integer, primary_key=True)
-    nome = Column(String, nullable=False)
-    preco = Column(Integer, nullable=False)
-    descricao = Column(String, nullable=False)
+    name = Column(String, nullable=False)
+    price = Column(Integer, nullable=False)
+    description = Column(String, nullable=False)
+    stock = Column(Integer, nullable=False)
     create_at = Column(DateTime, nullable=False)
     update_at = Column(DateTime, nullable=True)
 
-    carrinhos = relationship("Carrinho", back_populates="produto")
+    carts = relationship("Cart", back_populates="product")
 
 
-class Carrinho(Base):
-    __tablename__ = 'carrinho'
+class Cart(Base):
+    __tablename__ = 'carts'
     id = Column(Integer, primary_key=True)
-    id_pessoa = Column(Integer, ForeignKey('pessoas.id'), nullable=False)
-    id_produto = Column(Integer, ForeignKey('produtos.id'), nullable=False)
-    qtd = Column(String, nullable=False)
+    id_client = Column(Integer, ForeignKey('clients.id'), nullable=False)
+    id_product = Column(Integer, ForeignKey('products.id'), nullable=False)
+    qt = Column(String, nullable=False)
     status = Column(Integer, nullable=False)
     create_at = Column(DateTime, nullable=False)
     update_at = Column(DateTime, nullable=True)
 
-    pessoa = relationship("Pessoa", back_populates="carrinhos")
-    produto = relationship("Produto", back_populates="carrinhos")
+    client = relationship("Client", back_populates="carts")
+    product = relationship("Product", back_populates="carts")
